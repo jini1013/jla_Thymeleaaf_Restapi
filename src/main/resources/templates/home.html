@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- fragments dir 밑의 header조각을 사용한다 -->
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Home</h1>
+    <div th:replace="fregments/myFragment :: part1"/>
+    <hr>
+    <div th:insert="fregments/myFragment :: part2"/>
+    <hr>
+    <th:block th:insert="fregments/myFragment :: part3"/>
+
+</div> <!-- /container -->
+</body>
+</html>
