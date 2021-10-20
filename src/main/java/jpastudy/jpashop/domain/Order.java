@@ -68,7 +68,15 @@ public class Order {
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
-    //== 비즈니스 로직 : 주문생성 메서드==//
+    //== 비즈니스 로직 : 주문생성 메서드==
+
+    /**
+     *
+     * @param member
+     * @param delivery
+     * @param orderItems
+     * @return
+     */
     public static Order createOrder (Member member, Delivery delivery,OrderItem... orderItems) {
         Order order = new Order();
         // Order(주문)의 Member(회월) 연결
