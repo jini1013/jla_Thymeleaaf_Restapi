@@ -26,4 +26,18 @@ public class ItemService {
     public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
     }
+
+    /**
+     * 영속성 컨텍스트가 자동 변경
+     * Dirty checking을 사용한 update
+     */
+    @Transactional
+    public void updateItem(Long id, String name, int price) {
+        // 영속성 컨택스트에 저장됮 Item 먼저 조회
+        Item item = itemRepository.findOne(id);
+        // setter method 만 호출 해도 테이블의 데이터가 갱신된다.
+        item.setName(name);
+        item.setPrice(price);
+    }
+
 }

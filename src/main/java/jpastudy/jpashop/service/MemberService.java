@@ -30,6 +30,16 @@ public class MemberService {
         return member.getId();
     }
 
+    /**
+     * 회원 수정 (변경감지를 이용)
+     * dirty check를 이용 함: 읽은후 set하면 db 변경된다
+     */
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+    }
+
     //전체 회원 조회
     public List<Member> findMembers() {
         return memberRepository.findAll();

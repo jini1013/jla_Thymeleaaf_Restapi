@@ -17,6 +17,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+//    @NotEmpty 검증을 위한 annotation을 사용하지 않아야함
     private String name;
     @Embedded
     private Address address;
