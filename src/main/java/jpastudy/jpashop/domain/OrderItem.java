@@ -1,5 +1,6 @@
 package jpastudy.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jpastudy.jpashop.domain.item.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,6 +34,8 @@ public class OrderItem {
     //주문수량
     private int count;
     //==생성 메서드==//
+    // order의 양방향 참조 방지 - JSON을 무시해랴
+    @JsonIgnore
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         // OrderItem(주문상품)rhk Item(상품) 연격

@@ -1,5 +1,6 @@
 package jpastudy.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,10 @@ public class Member {
     // list 생성시 ArrayList를 미리 생성해주면 null  check에 유리하다
     // 상대방이 1 임으로 @OneToMany 사용 -> order.jaja에는 @ManyToOne
     // mappedBy사용하여 OneToMany의 foreign key를 지정해준다
+    //
+    // order의 양방향 참조 방지 - JSON을 무시해랴
+
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
