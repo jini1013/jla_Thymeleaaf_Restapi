@@ -1,15 +1,19 @@
 package jpastudy.jpashop.web;
 
 import jpastudy.jpashop.domain.item.Book;
+import jpastudy.jpashop.domain.item.Item;
 import jpastudy.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,7 +38,53 @@ public class ItemController {
         book.setAuthor(form.getAuthor());
         book.setIsbn(form.getIsbn());
         itemService.saveItem(book);
-//        return "redirect:/items";
-        return "redirect:/";
+        return "redirect:/items";
+//        return "redirect:/";
+    }
+    /**
+     * 상품 목록
+     */
+    @GetMapping(value = "/items")
+    public String list(Model model) {
+        List<Item> items = itemService.findItems();
+        model.addAttribute("items", items);
+        return "items/itemList";
+    }
+    /**
+     * 상품 수정 폼
+     */
+    @GetMapping(value = "/items/{itemId}/edit")
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
+        Book item = (Book) itemService.findOne(itemId);
+        BookForm bookForm = new BookForm();
+        bookForm.setStockQuantity(item.getStockQuantity());
+        bookForm.setAuthor(item.getAuthor());
+        bookForm.setPrice(item.getPrice());
+        bookForm.setId(item.getId());
+        bookForm.setIsbn(item.getIsbn());
+        model.addAttribute("bookForm", bookForm);
+        bookForm.setName(item.getName());
+        return "items/updateItemForm";
+    }
+    /**
+     * 상품 수정
+     */
+//    @PostMapping(value = "/items/{itemId}/edit")
+    public String updateItem(@ModelAttribute("bookForm") BookForm form) {
+        Book book = new Book();
+        book.setId(form.getId());
+        book.setName(form.getName());
+        book.setPrice(form.getPrice());
+        book.setStockQuantity(form.getStockQuantity());
+        book.setAuthor(form.getAuthor());
+        book.setIsbn(form.getIsbn());
+        itemService.saveItem(book);
+        return "redirect:/items";
+    }
+
+    @PostMapping(value = "/items/{itemId}/edit")
+    public String updateItemDirtyChecking(@ModelAttribute("bookForm") BookForm form) {
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice());
+        return "redirect:/items";
     }
 }
